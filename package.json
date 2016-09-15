@@ -1,0 +1,27 @@
+{
+  "name": "ms-filemetadata",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "gulp --env development",
+    "prod": "gulp --env production",
+    "build": "gulp --env production build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jon1701/MS-FileMetadata.git"
+  },
+  "author": "Jon1701",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jon1701/MS-FileMetadata/issues"
+  },
+  "homepage": "https://github.com/Jon1701/MS-FileMetadata#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-util": "^3.0.7"
+  }
+}
