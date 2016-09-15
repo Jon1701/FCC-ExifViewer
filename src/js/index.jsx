@@ -2,23 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class HelloWorld extends React.Component {
-
-  // Constructor.
-  constructor() {
-    super();
-  }
-
-  // Component Render.
-  render() {
-    return (
-      <div>
-        Hello World
-      </div>
-    )
-  }
-
-}
+// Components.
+import App from './App/App.jsx';
 
 // Render to the DOM.
-ReactDOM.render(<HelloWorld/>, document.getElementById('react-target'));
+ReactDOM.render(<App/>, document.getElementById('react-target'));
