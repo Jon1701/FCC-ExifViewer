@@ -12,7 +12,12 @@ export default class UserInput extends React.Component {
   render() {
     return (
       <div id="userinput">
-        UserInput
+
+        <form>
+          <input id="upload-file" type="file"/>
+          <button type="submit">Upload</button>
+        </form>
+
       </div>
     )
   };// End Component Render.
