@@ -3,6 +3,29 @@
 ////////////////////////////////////////////////////////////////////////////////
 var express = require('express');
 var app = express();
+var port = process.env.PORT || 8080;
+
+////////////////////////////////////////////////////////////////////////////////
+// MongoDB settings.
+////////////////////////////////////////////////////////////////////////////////
+var MONGO = {
+  host: process.env['MONGO_HOST'] || 'localhost',
+  port: process.env['MONGO_PORT'] || '27017',
+  database: 'ms-filemetadata',
+  collection: null,
+  credentials: {
+    username: 'APP_MS_FILEMETADATA',
+    password: process.env['APP_MS_FILEMETADATA']
+  }
+};
+
+// Add connection string to MongoDB options.
+MONGO['connString'] = 'mongodb://'
+                    + MONGO.credentials.username
+                    + ':' + MONGO.credentials.password
+                    + '@' + MONGO.host
+                    + ':' + MONGO.port
+                    + '/' + MONGO.database;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Serve files from the ./dist folder.
@@ -12,7 +35,6 @@ app.use(express.static('dist'));
 ////////////////////////////////////////////////////////////////////////////////
 // Server listening for connections.
 ////////////////////////////////////////////////////////////////////////////////
-var port = process.env.PORT || 8080;
 app.listen(port, function() {
   console.log('Listening for connections on PORT 8080');
 });
