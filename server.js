@@ -19,8 +19,38 @@ app.use(express.static('dist'));
 ////////////////////////////////////////////////////////////////////////////////
 // Route to handle file uploads.
 ////////////////////////////////////////////////////////////////////////////////
-app.post('/upload', upload.single('uploads'), function(req, res) {
-  console.log(req.file);
+app.post('/upload', upload.single('uploads'), function(req, res, next) {
+
+  // Get the full path and filename of the file which was just uploaded.
+  var filePath = req.file.path;
+
+  var ExifImage = require('exif').ExifImage;
+
+  try {
+    new ExifImage({ image: filePath}, (error, exifData) => {
+
+      // If no EXIF data could be found, send errors to error route.
+      if (error) { return next(error); };
+
+      // Return EXIF data to the client.
+      res.json(exifData.exif);
+
+    });
+  } catch (error) {
+
+    // If an attempt to load EXIF data failed, send errors to error route.
+    return next(error);
+
+  };
+
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// Route to handle errors.
+////////////////////////////////////////////////////////////////////////////////
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 ////////////////////////////////////////////////////////////////////////////////
