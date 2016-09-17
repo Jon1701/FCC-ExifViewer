@@ -14,17 +14,17 @@ export default class App extends React.Component {
 
     // Initial state.
     this.state = {
-      exifData: null  // EXIF data.
+      data: null  // EXIF data.
     };
 
     // Bind methods to component instance.
-    this.updateExif = this.updateExif.bind(this);
+    this.updateData = this.updateData.bind(this);
   };
 
-  // Callback to update EXIF data in state.
-  updateExif(exifData) {
+  // Callback to update data in state.
+  updateData(data) {
     this.setState({
-      exifData: exifData
+      data: data
     });
   };
 
@@ -33,8 +33,8 @@ export default class App extends React.Component {
     return (
       <div>
         <Jumbotron/>
-        <UserInput handleUpdateExif={this.updateExif}/>
-        <Results exifData={this.state.exifData}/>
+        <UserInput handleUpdateData={this.updateData}/>
+        <Results data={this.state.data}/>
       </div>
     )
   };// End Component Render.

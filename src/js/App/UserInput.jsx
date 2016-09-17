@@ -42,7 +42,7 @@ export default class UserInput extends React.Component {
         } else {
 
           // Send EXIF data to parent state.
-          this.props.handleUpdateExif(JSON.parse(res.text));
+          this.props.handleUpdateData(JSON.parse(res.text));
 
         };
 
