@@ -32,11 +32,20 @@ export default class UserInput extends React.Component {
       .post('/upload')
       .attach('uploads', file, 'filename')
       .end((err, res) => {
+
+        // Check response from server.
         if (err) {
+
+          // Error occurred.
           console.log(err);
+
         } else {
-          console.log(JSON.parse(res.text))
-        }
+
+          // Send EXIF data to parent state.
+          this.props.handleUpdateExif(JSON.parse(res.text));
+
+        };
+
       });
 
   };
