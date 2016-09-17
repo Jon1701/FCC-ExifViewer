@@ -32,7 +32,11 @@ export default class UserInput extends React.Component {
       .post('/upload')
       .attach('uploads', file, 'filename')
       .end((err, res) => {
-        console.log(res);
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(JSON.parse(res.text))
+        }
       });
 
   };
