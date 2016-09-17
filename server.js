@@ -5,11 +5,26 @@ var express = require('express');
 var multer  = require('multer');
 var app = express();
 
+var del = require('delete');  // Deletes files.
+
 ////////////////////////////////////////////////////////////////////////////////
 // Multer.
 ////////////////////////////////////////////////////////////////////////////////
 var multer  = require('multer');
 var upload = multer({ dest: './tmp/uploads/' });  // Disk storage.
+
+////////////////////////////////////////////////////////////////////////////////
+// Common callback functions.
+////////////////////////////////////////////////////////////////////////////////
+function deleteFile(filePath) {
+  del([filePath], (err) => {
+
+    if (err) {
+      console.log('Unable to delete file: ' + filePath);
+    };
+
+  });
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Serve files from the ./dist folder.
@@ -32,16 +47,25 @@ app.post('/upload', upload.single('uploads'), function(req, res, next) {
       // If no EXIF data could be found, send errors to error route.
       if (error) { return next(error); };
 
+      // Delete uploaded file.
+      deleteFile(filePath);
+
       // Return EXIF data to the client.
       res.json(exifData.exif);
 
     });
   } catch (error) {
 
+    // Delete uploaded file.
+    deleteFile(filePath);
+
     // If an attempt to load EXIF data failed, send errors to error route.
     return next(error);
 
   };
+
+  // Delete uploaded file.
+  deleteFile(filePath);
 
 });
 
