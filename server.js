@@ -2,30 +2,14 @@
 // ExpressJS dependencies.
 ////////////////////////////////////////////////////////////////////////////////
 var express = require('express');
+var multer  = require('multer');
 var app = express();
-var port = process.env.PORT || 8080;
 
 ////////////////////////////////////////////////////////////////////////////////
-// MongoDB settings.
+// Multer.
 ////////////////////////////////////////////////////////////////////////////////
-var MONGO = {
-  host: process.env['MONGO_HOST'] || 'localhost',
-  port: process.env['MONGO_PORT'] || '27017',
-  database: 'ms-filemetadata',
-  collection: null,
-  credentials: {
-    username: 'APP_MS_FILEMETADATA',
-    password: process.env['APP_MS_FILEMETADATA']
-  }
-};
-
-// Add connection string to MongoDB options.
-MONGO['connString'] = 'mongodb://'
-                    + MONGO.credentials.username
-                    + ':' + MONGO.credentials.password
-                    + '@' + MONGO.host
-                    + ':' + MONGO.port
-                    + '/' + MONGO.database;
+var multer  = require('multer');
+var upload = multer({ dest: './tmp/uploads/' });  // Disk storage.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Serve files from the ./dist folder.
@@ -33,8 +17,16 @@ MONGO['connString'] = 'mongodb://'
 app.use(express.static('dist'));
 
 ////////////////////////////////////////////////////////////////////////////////
+// Route to handle file uploads.
+////////////////////////////////////////////////////////////////////////////////
+app.post('/upload', upload.single('uploads'), function(req, res) {
+  console.log(req.file);
+});
+
+////////////////////////////////////////////////////////////////////////////////
 // Server listening for connections.
 ////////////////////////////////////////////////////////////////////////////////
+var port = process.env.PORT || 8080;
 app.listen(port, function() {
-  console.log('Listening for connections on PORT 8080');
+  console.log('Listening for connections on PORT ' + port);
 });
