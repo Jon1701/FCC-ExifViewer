@@ -5,7 +5,7 @@ import React from 'react';
 var compressionMapping = require('json!exif_compression.json');
 var flashMapping = require('json!exif_flash.json');
 var lightSourceMapping = require('json!exif_lightsource.json');
-
+var exposureProgramMapping = require('json!exif_exposureprogram.json');
 
 // Component Definition.
 export default class ResultsEXIF extends React.Component {
@@ -55,34 +55,21 @@ export default class ResultsEXIF extends React.Component {
       'Width':    copyValue('ExifImageWidth', exif),
       'Exposure Compensation': copyValue('ExposureCompensation', exif),
       'Exposure Mode': remapValue('ExposureMode', {0: 'Auto', 1: 'Manual', 2: 'Auto Bracket'}, exif),
+      'Exposure Program': remapValue('ExposureProgram', exposureProgramMapping, exif),
+      'Exposure Time': copyValue('ExposureTime', exif),
+      'F-Stop': copyValue('FNumber', exif),
+      'Flash': remapValue('Flash', flashMapping, exif),
+      'Focal Length': copyValue('FocalLength', exif),
+      'ISO': copyValue('ISO', exif),
     }
+
+
 
     /*
     newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    newExif[''] = copyValue('', exif);
-    */
 
-    // ExposureMode
-    // ExposureProgram
-    // ExposureTime
-    // FNumber
-    // Flash
-    // FocalLength
-    // FocalLengthIn35mmFormat
-    // GainControl
+
+
     // ISO
     // LightSource
     // MaxApertureValue
