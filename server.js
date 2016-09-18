@@ -64,7 +64,7 @@ app.post('/upload', upload.single('uploads'), function(req, res, next) {
       deleteFile(filePath);
 
       // Send EXIF and file size info to client.
-      res.json(data);
+      res.send(data);
 
     });
   } catch (error) {
