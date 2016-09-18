@@ -1,6 +1,12 @@
 // React.
 import React from 'react';
 
+// JSON mapping data.
+var compressionMapping = require('json!exif_compression.json');
+var flashMapping = require('json!exif_flash.json');
+var lightSourceMapping = require('json!exif_lightsource.json');
+
+
 // Component Definition.
 export default class ResultsEXIF extends React.Component {
 
@@ -25,14 +31,102 @@ export default class ResultsEXIF extends React.Component {
 
       // Get the value of the key.
       try {
-        return mapping[obj[key]]
+        return mapping[obj[key]];
       } catch(e) {
-        // Ignore errors.
+        return null;
+      };
+    };
+
+    function copyValue(key, obj) {
+      try {
+        return obj[key];
+      } catch(e) {
+        return null;
       }
     }
 
     // Object to hold sanitized EXIF data.
     var newExif = {};
+
+    // Contrast
+    newExif = {
+      'Contrast': copyValue('Contrast', exif),
+      'Height':   copyValue('ExifImageHeight', exif),
+      'Width':    copyValue('ExifImageWidth', exif),
+      'Exposure Compensation': copyValue('ExposureCompensation', exif),
+      'Exposure Mode': remapValue('ExposureMode', {0: 'Auto', 1: 'Manual', 2: 'Auto Bracket'}, exif),
+    }
+
+    /*
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    newExif[''] = copyValue('', exif);
+    */
+
+    // ExposureMode
+    // ExposureProgram
+    // ExposureTime
+    // FNumber
+    // Flash
+    // FocalLength
+    // FocalLengthIn35mmFormat
+    // GainControl
+    // ISO
+    // LightSource
+    // MaxApertureValue
+    // MeteringMode
+    // Saturation
+    // Sharpness
+
+
+    /*
+
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    newExif[''] = remapValue('', {}, exif);
+    */
+
+    console.log(newExif)
 
     //console.log(remapValue('Contrast', {0: 'Normal', 1: 'Low', 2: 'High'}, exif));
   };
@@ -41,6 +135,8 @@ export default class ResultsEXIF extends React.Component {
   render() {
 
     var x = this.prettyPrintExif(this.props.exif)
+
+    console.log(this.props.exif)
 
     return (
       <div className="row">
