@@ -1,9 +1,13 @@
 // React.
 import React from 'react';
-
 import classNames from 'classnames';
 
-export default class Results extends React.Component {
+// Other Components.
+import ResultsFileSize from './ResultsFileSize.jsx';
+import ResultsEXIF from './ResultsEXIF.jsx';
+
+// Component Definition.
+class Results extends React.Component {
 
   // Constructor.
   constructor(props) {
@@ -13,23 +17,29 @@ export default class Results extends React.Component {
   // Component Render.
   render() {
 
-    // Toggle visibility.
-    var myClasses = classNames({
-      'hidden': !this.props.data
-    });
-    console.log(this.props.data)
+    // Data possibly containing EXIF and filesize.
+    var data = this.props.data;
+
+    // Get file size.
+    var fileSize = 0;
+    if (data != null && data.hasOwnProperty('fileSize')) {
+      fileSize = data.fileSize;
+    };
+
+    // Get exif data.
+    var exif = null;
+    if (data != null && data.hasOwnProperty('exif')) {
+      exif = data.exif;
+    };
+
     return (
-      <div id="results" className={myClasses}>
+      <div id="results">
 
         <div id="table">
-          <div className="row">
-            <div className="col">
-              File size:
-            </div>
-            <div className="col">
-              {this.props.data.fileSize / 1000000}
-            </div>
-          </div>
+
+          <ResultsFileSize fileSize={fileSize}/>
+          <ResultsEXIF exif={exif}/>
+
         </div>
 
       </div>
@@ -38,7 +48,4 @@ export default class Results extends React.Component {
 
 }
 
-Results.defaultProps = {
-  fileSize: 0,
-  exif: null
-}
+export default Results;
