@@ -47,18 +47,24 @@ app.post('/upload', upload.single('uploads'), function(req, res, next) {
   var ExifImage = require('exif').ExifImage;
 
   try {
+
+    // Read metadata of the image.
     new ExifImage({ image: filePath}, (error, exifData) => {
 
       // Get filesize and add it to data variable.
       data['fileSize'] = fs.statSync(filePath)['size'];
 
-      // If an error occurs, set exif property to null.
-      // If no error, store exif data.
       if (error) {
-        data['exif'] = null;
+
+        // If an error occurred, there is no metadata.
+        data['metadata'] = null;
+
       } else {
-        data['exif'] = exifData.exif;
-      }
+
+        // Store metadata.
+        data['metadata'] = exifData;
+
+      };
 
       // Delete uploaded file.
       deleteFile(filePath);
