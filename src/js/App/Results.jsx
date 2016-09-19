@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 // Other Components.
 import ResultsFileSize from './ResultsFileSize.jsx';
-import ResultsEXIF from './ResultsEXIF.jsx';
+import ResultsExif from './ResultsExif.jsx';
 
 // Component Definition.
 class Results extends React.Component {
@@ -68,7 +68,7 @@ class Results extends React.Component {
         <div id="table">
 
           <ResultsFileSize fileSize={fileSize}/>
-          <ResultsEXIF exif={exifData}/>
+          <ResultsExif exif={exifData}/>
 
         </div>
 
