@@ -41,7 +41,7 @@ export default class UserInput extends React.Component {
 
         } else {
 
-          // Send EXIF data to parent state.
+          // Send metadata to parent state.
           this.props.handleUpdateData(JSON.parse(res.text));
 
         };

@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Component Definition.
-export default class ResultsFileSize extends React.Component {
+class ResultsFileSize extends React.Component {
 
   // Constructor.
   constructor(props) {
@@ -28,7 +28,14 @@ export default class ResultsFileSize extends React.Component {
         </div>
       </div>
     )
-    
+
   };// End Component Render.
 
 };
+
+// Default props.
+ResultsFileSize.defaultProps = {
+  fileSize: 0
+};
+
+export default ResultsFileSize;

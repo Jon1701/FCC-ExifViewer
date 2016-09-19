@@ -1,9 +1,6 @@
 // React.
 import React from 'react';
 
-// Components.
-import EXIFResult from './EXIFResult.jsx';
-
 // Component Definition.
 export default class ResultsEXIF extends React.Component {
 
@@ -98,9 +95,16 @@ export default class ResultsEXIF extends React.Component {
 
     var results = [];
 
-    exifData.forEach((value, tag, mapObj) => {
+    exifData.forEach((tagValue, tagName, mapObj) => {
       results.push(
-        <EXIFResult key={tag} tagName={tag} tagValue={value}/>
+        <div className="row" key={tagName}>
+          <div className="col">
+            {tagName}
+          </div>
+          <div className="col">
+            {tagValue}
+          </div>
+        </div>
       );
     });
 
@@ -108,7 +112,7 @@ export default class ResultsEXIF extends React.Component {
       <div>
         {results}
       </div>
-    )
+    );
 
   };// End Component Render.
 

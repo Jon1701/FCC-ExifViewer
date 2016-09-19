@@ -17,19 +17,49 @@ class Results extends React.Component {
   // Component Render.
   render() {
 
-    // Data possibly containing EXIF and filesize.
-    var data = this.props.data;
+    // File metadata containing filesize and Exif data.
+    // Can still be null if no data provided.
+    //
+    // Format:
+    //    metadata = {
+    //      fileSize: 0,    <-- File size.
+    //      metadata: {     <-- Collection of Image metadata.
+    //        exif: {...},  <-- Exif data.
+    //        gps: {...},   <-- GPS data.
+    //        image: {...}  <-- Image metadata (camera make/model, software, etc).
+    //      }
+    //    }
+    var metadata = this.props.data;
 
-    // Get file size.
-    var fileSize = 0;
-    if (data != null && data.hasOwnProperty('fileSize')) {
-      fileSize = data.fileSize;
-    };
+    // Variables to hold data extracted from metadata.
+    var fileSize;
+    var exifData;
+    var gpsData;
+    var imageData;
 
-    // Get exif data.
-    var exif = null;
-    if (data != null && data.hasOwnProperty('exif')) {
-      exif = data.exif;
+    // Check if metadata was extracted.
+    // A file has to have been uploaded and a response from a server recieved.
+    if (metadata != null) {
+
+      // Check to see if file size was provided.
+      if (metadata.hasOwnProperty('fileSize') && metadata['fileSize'] != null) {
+        fileSize = metadata['fileSize'];
+      };
+
+      // Check to see if the metadata subkey exists, and is not null.
+      // If it is not null then Exif, GPS, and Image data may be included.
+      if (metadata.hasOwnProperty('metadata') && metadata['metadata'] != null) {
+
+        // Let metadata variable reference the metadata subkey.
+        metadata = metadata['metadata'];
+
+        // Check to see if Exif data was provided.
+        if (metadata.hasOwnProperty('exif') && metadata['exif'] != null) {
+          exifData = metadata['exif'];
+        };
+
+      };
+
     };
 
     return (
@@ -38,14 +68,14 @@ class Results extends React.Component {
         <div id="table">
 
           <ResultsFileSize fileSize={fileSize}/>
-          <ResultsEXIF exif={exif}/>
+          <ResultsEXIF exif={exifData}/>
 
         </div>
 
       </div>
-    )
+    );
   };// End Component Render.
 
-}
+};
 
 export default Results;
