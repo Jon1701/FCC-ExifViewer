@@ -2,15 +2,18 @@
   display: none;
 }
 
-#table {
+.table {
   display: table;
-  width: 100%;
+
+  .tbl-header {
+    font-weight: bold;
+  }
 
   .row {
     display: table-row;
   }
 
-  .col {
+  .cell {
     display: table-cell;
     text-align: center;
   }

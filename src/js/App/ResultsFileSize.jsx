@@ -1,8 +1,9 @@
 // React.
 import React from 'react';
+import classNames from 'classnames';
 
 // Component Definition.
-class ResultsFileSize extends React.Component {
+export default class ResultsFileSize extends React.Component {
 
   // Constructor.
   constructor(props) {
@@ -13,18 +14,32 @@ class ResultsFileSize extends React.Component {
   render() {
 
     // Get the filesize in Megabytes.
-    var fileSizeInMegabytes = this.props.fileSize / 1000000;
+    var fileSizeInMegabytes;
 
-    // Round to two decimal places.
-    fileSizeInMegabytes = Math.round(fileSizeInMegabytes * 100) / 100;
+    if (this.props.fileSize != null) {
+      fileSizeInMegabytes = this.props.fileSize / 1000000;
+
+      // Round to two decimal places.
+      fileSizeInMegabytes = Math.round(fileSizeInMegabytes * 100) / 100;
+
+    }
+
+
+
+    var myClasses = classNames({
+      'hidden': true,
+      'table': this.props.fileSize != null
+    });
 
     return (
-      <div className="row">
-        <div className="col">
-          File size:
-        </div>
-        <div className="col">
-          {fileSizeInMegabytes} MB
+      <div className={myClasses}>
+        <div className="row">
+          <div className="cell">
+            File size:
+          </div>
+          <div className="cell">
+            {fileSizeInMegabytes} MB
+          </div>
         </div>
       </div>
     )
@@ -32,10 +47,3 @@ class ResultsFileSize extends React.Component {
   };// End Component Render.
 
 };
-
-// Default props.
-ResultsFileSize.defaultProps = {
-  fileSize: 0
-};
-
-export default ResultsFileSize;

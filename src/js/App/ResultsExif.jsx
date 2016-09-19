@@ -1,6 +1,8 @@
 // React.
 import React from 'react';
 
+import classNames from 'classnames';
+
 // Component Definition.
 export default class ResultsEXIF extends React.Component {
 
@@ -96,20 +98,35 @@ export default class ResultsEXIF extends React.Component {
     var results = [];
 
     exifData.forEach((tagValue, tagName, mapObj) => {
+
+      let myClasses = classNames({
+        'hidden': true,         // Hidden by default.
+        'row': tagValue != null // Switch to display: table-row.
+      });
+
       results.push(
-        <div className="row" key={tagName}>
-          <div className="col">
+        <div className={myClasses} key={tagName}>
+          <div className="cell">
             {tagName}
           </div>
-          <div className="col">
+          <div className="cell">
             {tagValue}
           </div>
         </div>
       );
     });
 
+    var myClasses = classNames({
+      'hidden': true,
+      'table': this.props.exif != null
+    });
+
     return (
-      <div>
+      <div className={myClasses}>
+        <div className="row">
+          <div className="cell tbl-header">Tag Name</div>
+          <div className="cell tbl-header">Tag Value</div>
+        </div>
         {results}
       </div>
     );
