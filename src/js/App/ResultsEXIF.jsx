@@ -1,11 +1,8 @@
 // React.
 import React from 'react';
 
-// JSON mapping data.
-var compressionMapping = require('json!exif_compression.json');
-var flashMapping = require('json!exif_flash.json');
-var lightSourceMapping = require('json!exif_lightsource.json');
-var exposureProgramMapping = require('json!exif_exposureprogram.json');
+// Components.
+import EXIFResult from './EXIFResult.jsx';
 
 // Component Definition.
 export default class ResultsEXIF extends React.Component {
@@ -15,124 +12,101 @@ export default class ResultsEXIF extends React.Component {
     super(props);
 
     // Bind methods to component instance.
-    this.prettyPrintExif = this.prettyPrintExif.bind(this);
+    this.sanitizeExifData = this.sanitizeExifData.bind(this);
   };
 
   // Function to take raw EXIF data, rename properties and values to use
   // natural language labels and values.
-  prettyPrintExif(exif) {
+  sanitizeExifData(oldExifData) {
 
     // Function which remaps EXIF property values.
     //
     // For example: The Contrast property takes on values: 0, 1, or 2.
     // This function can remap 0, 1, or 2, to 'Normal', 'Low', or 'High',
     // respectively.
-    function remapValue(key, mapping, obj) {
+    function remapValue(key, obj) {
 
-      // Get the value of the key.
+      // EXIF tag value mapping from integers to strings.
+      //
+      // Keys are EXIF tag names. Subkeys are the integer values the tag takes
+      // on, and its associated values are the string representation of the values.
+      //
+      // Example:
+      //  "Compression": {  <--- EXIF Tag Name
+      //    "1": "Compressed", <--- Transforms Tag Value of "1" to "Pentax PEF Compressed".
+      //    "65535": "Pentax PEF Compressed"
+      //  }
+      var exifMapping = require('json!exif_mapping.json');
+
       try {
-        return mapping[obj[key]];
+
+        // Key: EXIF Tag name.
+        // exifValue: EXIF Tag value.
+        var exifValue = obj[key]
+
+        // Return the string representation of the EXIF Tag value.
+        return exifMapping[key][exifValue];
+
       } catch(e) {
+
+        // Return null if no value could be looked up.
         return null;
+
       };
     };
 
+    // Function which copies EXIF Tag values.
+    //
+    //  key: EXIF Tag name.
+    //  obj: Object containing EXIF data.
     function copyValue(key, obj) {
       try {
         return obj[key];
       } catch(e) {
         return null;
-      }
-    }
+      };
+    };
 
-    // Object to hold sanitized EXIF data.
-    var newExif = {};
+    // Map to hold sanitized EXIF data. (Ordered Object).
+    var newExifData = new Map();
+    newExifData.set('Contrast', copyValue('Contrast', oldExifData));
+    newExifData.set('Height', copyValue('ExifImageHeight', oldExifData));
+    newExifData.set('Width', copyValue('ExifImageWidth', oldExifData));
+    newExifData.set('Exposure Compensation', copyValue('ExposureCompensation', oldExifData));
+    newExifData.set('Exposure Mode', remapValue('ExposureMode', oldExifData));
+    newExifData.set('Exposure Program', remapValue('ExposureProgram', oldExifData));
+    newExifData.set('Exposure Time', copyValue('ExposureTime', oldExifData));
+    newExifData.set('F-Stop', copyValue('FNumber', oldExifData));
+    newExifData.set('Flash', remapValue('Flash', oldExifData));
+    newExifData.set('Focal Length', copyValue('FocalLength', oldExifData));
+    newExifData.set('ISO', copyValue('ISO', oldExifData));
+    newExifData.set('Light Source', remapValue('LightSource', oldExifData));
+    newExifData.set('Metering Mode', remapValue('MeteringMode', oldExifData));
+    newExifData.set('Saturation', remapValue('Saturation', oldExifData));
+    newExifData.set('Sharpness', remapValue('Sharpness', oldExifData));
 
-    // Contrast
-    newExif = {
-      'Contrast': copyValue('Contrast', exif),
-      'Height':   copyValue('ExifImageHeight', exif),
-      'Width':    copyValue('ExifImageWidth', exif),
-      'Exposure Compensation': copyValue('ExposureCompensation', exif),
-      'Exposure Mode': remapValue('ExposureMode', {0: 'Auto', 1: 'Manual', 2: 'Auto Bracket'}, exif),
-      'Exposure Program': remapValue('ExposureProgram', exposureProgramMapping, exif),
-      'Exposure Time': copyValue('ExposureTime', exif),
-      'F-Stop': copyValue('FNumber', exif),
-      'Flash': remapValue('Flash', flashMapping, exif),
-      'Focal Length': copyValue('FocalLength', exif),
-      'ISO': copyValue('ISO', exif),
-    }
+    return newExifData;
 
-
-
-    /*
-    newExif[''] = copyValue('', exif);
-
-
-
-    // ISO
-    // LightSource
-    // MaxApertureValue
-    // MeteringMode
-    // Saturation
-    // Sharpness
-
-
-    /*
-
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    newExif[''] = remapValue('', {}, exif);
-    */
-
-    console.log(newExif)
-
-    //console.log(remapValue('Contrast', {0: 'Normal', 1: 'Low', 2: 'High'}, exif));
   };
 
   // Component Render.
   render() {
 
-    var x = this.prettyPrintExif(this.props.exif)
+    // Sanitize the EXIF data.
+    // Renames tags, converts integer values to natural language string values.
+    var exifData = this.sanitizeExifData(this.props.exif)
 
-    console.log(this.props.exif)
+    var results = [];
+
+    exifData.forEach((value, tag, mapObj) => {
+      results.push(
+        <EXIFResult key={tag} tagName={tag} tagValue={value}/>
+      );
+    });
 
     return (
-      <div className="row">
-        <div className="col">
-          EXIF
-        </div>
-        <div className="col">
-          {JSON.stringify(this.props.exif)}
-        </div>
+      <div>
+        {results}
       </div>
     )
 
