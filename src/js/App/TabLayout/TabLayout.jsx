@@ -6,6 +6,8 @@ import classNames from 'classnames';
 // Components.
 import Tab from './Tab.jsx';
 import ResultsExif from './ResultsExif.jsx';
+import ResultsImageData from './ResultsImageData.jsx';
+
 
 export default class TabLayout extends React.Component {
 
@@ -15,7 +17,7 @@ export default class TabLayout extends React.Component {
 
     // Default state.
     this.state = {
-      currentTab: 0,   // ID of the current tab.
+      currentTab: 1,   // ID of the current tab.
       fileSize: null,
       exifData: null,
       gpsData: null,
@@ -146,7 +148,19 @@ export default class TabLayout extends React.Component {
         </div>
 
         <div className="container-results">
-          <ResultsExif tabId={0} currentTab={this.state.currentTab} data={this.state.exifData}/>
+
+          <ResultsExif
+            tabId={0}
+            currentTab={this.state.currentTab}
+            data={this.state.exifData}
+            />
+
+          <ResultsImageData
+            tabId={1}
+            currentTab={this.state.currentTab}
+            data={this.state.imageData}
+            />
+
         </div>
       </div>
     )
