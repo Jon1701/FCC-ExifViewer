@@ -74,7 +74,7 @@ export default class UserInput extends React.Component {
       <div id="userinput" className="noselect boxshadow">
         <form>
           <div id="upload-file-target" onClick={this.handleFileUploadOnClick}>
-            <h2>Drag your .jpg file here</h2>
+            <h2>Upload a .jpg file here</h2>
           </div>
           <input className="hidden" id="upload-file-control" type="file"/>
         </form>
