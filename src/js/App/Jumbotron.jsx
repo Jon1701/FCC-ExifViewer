@@ -11,7 +11,7 @@ export default class Jumbotron extends React.Component {
   // Component Render.
   render() {
     return (
-      <div id="jumbotron">
+      <div id="jumbotron" className="jumbotron boxshadow">
         <h1>What is Metadata?</h1>
         <p>
           Metadata is data which provides information about other data.
