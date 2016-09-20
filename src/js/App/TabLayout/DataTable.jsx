@@ -19,17 +19,22 @@ export default class DataTable extends React.Component {
       // Iterate over the sanitized Exif data and create rows and cells.
       rowMap.forEach((tagValue, tagName, mapObj) => {
 
-        // Create and store row.
-        results.push(
-          <div className="row" key={tagName}>
-            <div className="cell">
-              {tagName}
+        // Only store non-null values.
+        if (tagValue) {
+
+          // Create and store row.
+          results.push(
+            <div className="row" key={tagName}>
+              <div className="cell">
+                {tagName}
+              </div>
+              <div className="cell">
+                {tagValue}
+              </div>
             </div>
-            <div className="cell">
-              {tagValue}
-            </div>
-          </div>
-        ); // End row creation and storing.
+          ); // End row creation and storing.
+          
+        };
 
       }); // End iteration.
     }
