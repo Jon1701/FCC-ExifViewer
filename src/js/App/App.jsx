@@ -35,8 +35,8 @@ export default class App extends React.Component {
       <div>
         <Jumbotron/>
         <UserInput handleUpdateData={this.updateData}/>
-        <Results data={this.state.data}/>
-        <TabLayout/>
+        {"<Results data={this.state.data}/>"}
+        <TabLayout data={this.state.data}/>
       </div>
     )
   };// End Component Render.
