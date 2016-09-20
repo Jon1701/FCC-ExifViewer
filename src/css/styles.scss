@@ -13,6 +13,26 @@ body {
   padding: 20px;
 }
 
+.container-tabs {
+
+  box-sizing: border-box;
+
+  .tab {
+    box-sizing: border-box;
+    float: left;
+    width: 33.33%;
+    background-color: #FFFFFF;
+
+    padding: 20px 0 20px 0;
+  };
+
+  .tab-active {
+    background-color: #6aaf4e;
+    color: #FFFFFF;
+  };
+
+};
+
 #userinput {
 
 
@@ -66,6 +86,14 @@ body {
                                   not supported by any browser */
 }
 
+.text-center {
+  text-align: center;
+}
+
 .hidden {
   display: none;
+}
+
+.clearfix {
+  clear: both;
 }
