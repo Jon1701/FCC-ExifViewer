@@ -73,6 +73,16 @@ export default class TabLayout extends React.Component {
           exifData = metadata['exif'];
         }; // End check.
 
+        // Check to see if Exif data was provided.
+        if (metadata.hasOwnProperty('image') && metadata['image'] != null) {
+          imageData = metadata['image'];
+        }; // End check.
+
+        // Check to see if Exif data was provided.
+        if (metadata.hasOwnProperty('gps') && metadata['gps'] != null) {
+          gpsData = metadata['gps'];
+        }; // End check.
+
       }; // End check of metadata subkey.
 
       // Store data in state.

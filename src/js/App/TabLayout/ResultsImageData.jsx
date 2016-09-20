@@ -12,16 +12,48 @@ export default class ResultsImageData extends React.Component {
     super(props);
   };
 
-  sanitizeImageData(data) {
-    if (data) {
-      var mapOfImageData = new Map();
+  // Function to take raw EXIF data, rename properties and values to use
+  // natural language labels and values.
+  // Function to sanitize file size data.
+  //
+  // Field names are transformed into Natural Language form (eg: CameraFlashMode --> Camera Flash Mode)
+  // Field values are transformed into Natural Language form (eg: 0 --> Off, 1 --> On, 2 --> Unknown)
+  //
+  // Creates a Map object where the keys are the field names to display.
+  // Values are the field values.
+  //
+  // These are the values which will appear in the final data table.
+  sanitizeImageData(imgData) {
 
-      mapOfImageData.set('Field Name', 'Field Value');
+    // Function which copies Tag values.
+    //
+    //  key: Tag name.
+    //  obj: Object containing EXIF data.
+    function copyValue(key, obj) {
+      try {
+        return obj[key];
+      } catch(e) {
+        return null;
+      };
+    };
+
+    // Only transform if data is provided.
+    if (imgData) {
+
+      // Map to hold sanitized EXIF data. (Ordered Object).
+      var mapOfImageData = new Map();
+      mapOfImageData.set('Artist', copyValue('Artist', imgData));
+      mapOfImageData.set('Copyright', copyValue('Copyright', imgData));
+      mapOfImageData.set('Camera Manufacturer', copyValue('Make', imgData));
+      mapOfImageData.set('Camera Model', copyValue('Model', imgData));
+      mapOfImageData.set('Horizontal Resolution', copyValue('XResolution', imgData));
+      mapOfImageData.set('Vertical Resolution', copyValue('YResolution', imgData));
 
       return mapOfImageData
-    }
 
-  }
+    };
+
+  };
 
   // Component Render.
   render() {
