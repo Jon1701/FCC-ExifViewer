@@ -33,6 +33,13 @@ body {
 
 };
 
+.container-results {
+  background-color: #FFFFFF;
+  border: solid 5px #6aaf4e;
+  padding: 10px;
+};
+
+
 #userinput {
 
 
@@ -52,6 +59,21 @@ body {
 }
 
 
+
+
+
+.tbl {
+  display: table;
+  width: 100%;
+
+  .row {
+    display: table-row;
+  };
+
+  .cell {
+    display: table-cell;
+  }
+}
 
 
 

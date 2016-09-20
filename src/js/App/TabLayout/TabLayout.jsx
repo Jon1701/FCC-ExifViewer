@@ -1,9 +1,11 @@
 // React.
 import React from 'react';
 
+import classNames from 'classnames';
+
 // Components.
 import Tab from './Tab.jsx';
-import Results from './Results.jsx';
+import ResultsExif from './ResultsExif.jsx';
 
 export default class TabLayout extends React.Component {
 
@@ -24,6 +26,8 @@ export default class TabLayout extends React.Component {
     this.handleUpdateCurrentTab = this.handleUpdateCurrentTab.bind(this);
   };
 
+  // When the Component receives props (file size, image, gps, exif data),
+  // Split the data into 4 separate variables, and store them in state.
   componentWillReceiveProps(nextProps) {
 
     // File metadata containing filesize and Exif data.
@@ -53,7 +57,7 @@ export default class TabLayout extends React.Component {
       // Check to see if file size was provided.
       if (metadata.hasOwnProperty('fileSize') && metadata['fileSize'] != null) {
         fileSize = {'fileSize': metadata['fileSize']};
-      };
+      }; // End file size check.
 
       // Check to see if the metadata subkey exists, and is not null.
       // If it is not null then Exif, GPS, and Image data may be included.
@@ -65,9 +69,9 @@ export default class TabLayout extends React.Component {
         // Check to see if Exif data was provided.
         if (metadata.hasOwnProperty('exif') && metadata['exif'] != null) {
           exifData = metadata['exif'];
-        };
+        }; // End check.
 
-      };
+      }; // End check of metadata subkey.
 
       // Store data in state.
       this.setState({
@@ -75,11 +79,11 @@ export default class TabLayout extends React.Component {
         exifData: exifData,
         gpsData: gpsData,
         imageData: imageData
-      });
+      }); // End storing data in state.
 
-    };
+    }; // End metadata extraction check.
 
-  };
+  }; // End componentWillReceiveProps.
 
   // Callback to update current tab.
   handleUpdateCurrentTab(tabId) {
@@ -90,20 +94,59 @@ export default class TabLayout extends React.Component {
 
   // Component Render.
   render() {
+
+    // Boolean mask to check if all file size, exif, gps, and image data are null.
+    var allDataNull =
+      this.state.fileSize == null &&
+      this.state.exifData == null &&
+      this.state.gpsData == null &&
+      this.state.imageData == null;
+
+    // Toggless the .hidden class.
+    // Hide entire layout if no data was sent/received to/from server.
+    // Unhide if data was received.
+    var myClasses = classNames({
+      'hidden': allDataNull
+    });
+
     return (
-      <div>
+      <div className={myClasses}>
         <div className="container-tabs">
-          <Tab tabId={0} currentTab={this.state.currentTab} label={"EXIF"} handleUpdateCurrentTab={this.handleUpdateCurrentTab}/>
-          <Tab tabId={1} currentTab={this.state.currentTab} label={"Image Data"} handleUpdateCurrentTab={this.handleUpdateCurrentTab}/>
-          <Tab tabId={2} currentTab={this.state.currentTab} label={"GPS Data"} handleUpdateCurrentTab={this.handleUpdateCurrentTab}/>
-          <Tab tabId={3} currentTab={this.state.currentTab} label={"File Size"} handleUpdateCurrentTab={this.handleUpdateCurrentTab}/>
+
+          <Tab
+            tabId={0}
+            currentTab={this.state.currentTab}
+            label={"EXIF"}
+            handleUpdateCurrentTab={this.handleUpdateCurrentTab}
+            />
+
+          <Tab
+            tabId={1}
+            currentTab={this.state.currentTab}
+            label={"Image Data"}
+            handleUpdateCurrentTab={this.handleUpdateCurrentTab}
+            />
+
+          <Tab
+            tabId={2}
+            currentTab={this.state.currentTab}
+            label={"GPS Data"}
+            handleUpdateCurrentTab={this.handleUpdateCurrentTab}
+            />
+
+          <Tab
+            tabId={3}
+            currentTab={this.state.currentTab}
+            label={"File Size"}
+            handleUpdateCurrentTab={this.handleUpdateCurrentTab}
+            />
+
           <div className="clearfix"/>
+
         </div>
+
         <div className="container-results">
-          <Results tabId={0} currentTab={this.state.currentTab} data={this.state.exifData}/>
-          <Results tabId={1} currentTab={this.state.currentTab} data={this.state.imageData}/>
-          <Results tabId={2} currentTab={this.state.currentTab} data={this.state.gpsData}/>
-          <Results tabId={3} currentTab={this.state.currentTab} data={this.state.fileSize}/>
+          <ResultsExif tabId={0} currentTab={this.state.currentTab} data={this.state.exifData}/>
         </div>
       </div>
     )
