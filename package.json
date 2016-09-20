@@ -1,5 +1,5 @@
 {
-  "name": "ms-filemetadata",
+  "name": "ms-exif-decoder",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jon1701/MS-FileMetadata.git"
+    "url": "git+https://github.com/Jon1701/MS-ExifDecoder.git"
   },
   "author": "Jon1701",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jon1701/MS-FileMetadata/issues"
+    "url": "https://github.com/Jon1701/MS-ExifDecoder/issues"
   },
-  "homepage": "https://github.com/Jon1701/MS-FileMetadata#readme",
+  "homepage": "https://github.com/Jon1701/MS-ExifDecoder#readme",
   "dependencies": {
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
