@@ -3,7 +3,7 @@ import React from 'react';
 
 // Components.
 import Jumbotron from './Jumbotron.jsx';
-import UserInput from './UserInput.jsx';
+import Uploader from './Uploader.jsx';
 import TabLayout from './TabLayout/TabLayout.jsx';
 
 export default class App extends React.Component {
@@ -33,7 +33,7 @@ export default class App extends React.Component {
     return (
       <div>
         <Jumbotron/>
-        <UserInput handleUpdateData={this.updateData}/>
+        <Uploader handleUpdateData={this.updateData}/>
         <TabLayout data={this.state.data}/>
       </div>
     )

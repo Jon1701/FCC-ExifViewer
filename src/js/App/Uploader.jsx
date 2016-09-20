@@ -5,7 +5,7 @@ import React from 'react';
 var request = require('superagent');
 
 // Component definition.
-export default class UserInput extends React.Component {
+export default class Uploader extends React.Component {
 
   // Constructor.
   constructor(props) {
@@ -71,7 +71,7 @@ export default class UserInput extends React.Component {
   // Component Render.
   render() {
     return (
-      <div id="userinput" className="noselect panel boxshadow">
+      <div id="uploader" className="noselect panel boxshadow">
         <form>
           <div id="upload-file-target" onClick={this.handleFileUploadOnClick}>
             <h2>Upload a .jpg file here</h2>
