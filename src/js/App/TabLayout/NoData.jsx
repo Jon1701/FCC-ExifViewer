@@ -21,7 +21,7 @@ export default class NoData extends React.Component {
       'hidden': typeof(this.props.originalData) != 'undefined',
       'text-center': true
     });
-    
+
     return (
       <div className={classesNoDataAvailable}>
         No data available

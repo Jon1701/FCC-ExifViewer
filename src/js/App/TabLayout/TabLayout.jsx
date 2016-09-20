@@ -81,7 +81,14 @@ export default class TabLayout extends React.Component {
 
         // Check to see if Exif data was provided.
         if (metadata.hasOwnProperty('gps') && metadata['gps'] != null) {
-          gpsData = metadata['gps'];
+
+          // Check if gps property is just an empty object.
+          if (typeof metadata['gps'] == 'object' && Object.keys(metadata['gps']).length == 0) {
+            gpsData = undefined;
+          } else {
+            gpsData = metadata['gps'];
+          }
+
         }; // End check.
 
       }; // End check of metadata subkey.
