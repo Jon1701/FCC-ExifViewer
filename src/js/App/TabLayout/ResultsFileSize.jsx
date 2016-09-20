@@ -2,6 +2,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import DataTable from './DataTable.jsx';
+import NoData from './NoData.jsx';
+
 export default class ResultsFileSize extends React.Component {
 
   // Constructor.
@@ -9,20 +12,47 @@ export default class ResultsFileSize extends React.Component {
     super(props);
   };
 
-  createRow(data) {
+  // Function to sanitize file size data.
+  //
+  // Field names are transformed into Natural Language form (eg: CameraFlashMode --> Camera Flash Mode)
+  // Field values are transformed into Natural Language form (eg: 0 --> Off, 1 --> On, 2 --> Unknown)
+  // File sizes are converted into either KB or MB units.
+  //
+  // Creates a Map object where the keys are the field names to display.
+  // Values are the field values.
+  //
+  // These are the values which will appear in the final data table.
+  sanitizeFileSizeData(data) {
+
+    // Only run if file size data is provided.
     if (data) {
 
-      // Array to hold the rows and columns of the table.
-      return [
-        <div className="row" key={'fileSize'}>
-          <div className="cell">
-            File Size
-          </div>
-          <div className="cell">
-            {data.fileSize / 1000000} MB
-          </div>
-        </div>
-      ];
+      // Map which will contain the file size.
+      var fsMap = new Map();
+
+      // Two cases.
+      //
+      // Files below 1000000 bytes will use kilobytes.
+      // Files above 1000000 bytes will use megabytes.
+      if (data.fileSize < 1000000) {
+
+        // Convert file size to kilobytes..
+        var fsKilobytes = data.fileSize / 1000;
+
+        // Round to two decimal places, and store in Map.
+        fsMap.set('File Size', fsKilobytes.toFixed(2) + ' KB');
+
+      } else {
+
+        // Convert filesize to megabytes.
+        var fsMegabytes = data.fileSize / 1000000;
+
+        // Round to two decimal places, and store in Map.
+        fsMap.set('File Size', fsMegabytes.toFixed(2) + ' MB');
+
+      };
+
+      return fsMap;
 
     };
   };
@@ -30,7 +60,16 @@ export default class ResultsFileSize extends React.Component {
   // Component Render.
   render() {
 
-    var rows = this.createRow(this.props.data);
+    // Sanitizes file size data from the server.
+    //
+    // Field names are transformed into Natural Language form (eg: CameraFlashMode --> Camera Flash Mode)
+    // Field values are transformed into Natural Language form (eg: 0 --> Off, 1 --> On, 2 --> Unknown)
+    //
+    // Creates a Map object where the keys are the field names to display.
+    // Values are the field values.
+    //
+    // These are the values which will appear in the final data table.
+    var mapOfFileSizeData = this.sanitizeFileSizeData(this.props.data);
 
     // Classes to toggle display of the component in its entirety.
     //
@@ -40,35 +79,12 @@ export default class ResultsFileSize extends React.Component {
       'hidden': this.props.tabId != this.props.currentTab
     });
 
-    // Classes to toggle display of the data table.
-    //
-    // If this.props.data is undefined, then no Exif data was sent,
-    // and the table should be hidden
-    var classesDisplayTable = classNames({
-      'hidden': typeof(this.props.data) == 'undefined',
-      'tbl': true
-    });
-
-    // Classes to toggle displaying of No Data Available message.
-    //
-    // If this.props.data is undefined, this means no Exif data
-    // was passed down. Therefore this div must not be hidden when
-    // no Exif data is provided.
-    var classesNoDataAvailable = classNames({
-      'hidden': typeof(this.props.data) != 'undefined',
-      'text-center': true
-    });
-
     return (
       <div className={classesDisplayResults}>
-        <div className={classesDisplayTable}>
-          {rows}
-        </div>
-        <div className={classesNoDataAvailable}>
-          No data available
-        </div>
+        <DataTable rowMap={mapOfFileSizeData} originalData={this.props.data}/>
+        <NoData originalData={this.props.data}/>
       </div>
-    )
+    );
   };// End Component Render.
 
 };

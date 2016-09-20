@@ -2,6 +2,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
+// Components.
+import DataTable from './DataTable.jsx';
+import NoData from './NoData.jsx';
+
 export default class ResultsExif extends React.Component {
 
   // Constructor.
@@ -11,6 +15,15 @@ export default class ResultsExif extends React.Component {
 
   // Function to take raw EXIF data, rename properties and values to use
   // natural language labels and values.
+  // Function to sanitize file size data.
+  //
+  // Field names are transformed into Natural Language form (eg: CameraFlashMode --> Camera Flash Mode)
+  // Field values are transformed into Natural Language form (eg: 0 --> Off, 1 --> On, 2 --> Unknown)
+  //
+  // Creates a Map object where the keys are the field names to display.
+  // Values are the field values.
+  //
+  // These are the values which will appear in the final data table.
   sanitizeExifData(oldExifData) {
 
     // Function which remaps EXIF property values.
@@ -83,42 +96,19 @@ export default class ResultsExif extends React.Component {
 
   };
 
-  // Function to create table rows and cells for sanitized Exif data.
-  createRows(exifData) {
-
-    // Array to store HTML rows and cells for the table.
-    var results = [];
-
-    // Iterate over the sanitized Exif data and create rows and cells.
-    exifData.forEach((tagValue, tagName, mapObj) => {
-
-      // Create and store row.
-      results.push(
-        <div className="row" key={tagName}>
-          <div className="cell">
-            {tagName}
-          </div>
-          <div className="cell">
-            {tagValue}
-          </div>
-        </div>
-      ); // End row creation and storing.
-
-    }); // End iteration.
-
-    return results;
-  };
-
   // Component Render.
   render() {
 
-    // Sanitize raw exif data.
-    // Rewrite field names using natural language,
-    // Decode integer values into natural language.
-    var newExifData = this.sanitizeExifData(this.props.data);
-
-    // Create table rows and cells using sanitized Exif data.
-    var rows = this.createRows(newExifData);
+    // Sanitizes raw Exif data.
+    //
+    // Field names are transformed into Natural Language form (eg: CameraFlashMode --> Camera Flash Mode)
+    // Field values are transformed into Natural Language form (eg: 0 --> Off, 1 --> On, 2 --> Unknown)
+    //
+    // Creates a Map object where the keys are the field names to display.
+    // Values are the field values.
+    //
+    // These are the values which will appear in the final data table.
+    var mapOfSanitizedExifData = this.sanitizeExifData(this.props.data);
 
     // Classes to toggle display of the component in its entirety.
     //
@@ -128,33 +118,10 @@ export default class ResultsExif extends React.Component {
       'hidden': this.props.tabId != this.props.currentTab
     });
 
-    // Classes to toggle display of the data table.
-    //
-    // If this.props.data is undefined, then no Exif data was sent,
-    // and the table should be hidden
-    var classesDisplayTable = classNames({
-      'hidden': typeof(this.props.data) == 'undefined',
-      'tbl': true
-    });
-
-    // Classes to toggle displaying of No Data Available message.
-    //
-    // If this.props.data is undefined, this means no Exif data
-    // was passed down. Therefore this div must not be hidden when
-    // no Exif data is provided.
-    var classesNoDataAvailable = classNames({
-      'hidden': typeof(this.props.data) != 'undefined',
-      'text-center': true
-    });
-
     return (
       <div className={classesDisplayResults}>
-        <div className={classesDisplayTable}>
-          {rows}
-        </div>
-        <div className={classesNoDataAvailable}>
-          No data available
-        </div>
+        <DataTable rowMap={mapOfSanitizedExifData} originalData={this.props.data}/>
+        <NoData originalData={this.props.data}/>
       </div>
     )
   };// End Component Render.

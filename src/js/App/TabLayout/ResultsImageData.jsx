@@ -2,6 +2,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import DataTable from './DataTable.jsx';
+import NoData from './NoData.jsx';
+
 export default class ResultsImageData extends React.Component {
 
   // Constructor.
@@ -9,8 +12,30 @@ export default class ResultsImageData extends React.Component {
     super(props);
   };
 
+  sanitizeImageData(data) {
+    if (data) {
+      var mapOfImageData = new Map();
+
+      mapOfImageData.set('Field Name', 'Field Value');
+
+      return mapOfImageData
+    }
+
+  }
+
   // Component Render.
   render() {
+
+    // Sanitizes file size data from the server.
+    //
+    // Field names are transformed into Natural Language form (eg: CameraFlashMode --> Camera Flash Mode)
+    // Field values are transformed into Natural Language form (eg: 0 --> Off, 1 --> On, 2 --> Unknown)
+    //
+    // Creates a Map object where the keys are the field names to display.
+    // Values are the field values.
+    //
+    // These are the values which will appear in the final data table.
+    var mapOfImageData = this.sanitizeImageData(this.props.data);
 
     // Classes to toggle display of the component in its entirety.
     //
@@ -20,35 +45,12 @@ export default class ResultsImageData extends React.Component {
       'hidden': this.props.tabId != this.props.currentTab
     });
 
-    // Classes to toggle display of the data table.
-    //
-    // If this.props.data is undefined, then no Exif data was sent,
-    // and the table should be hidden
-    var classesDisplayTable = classNames({
-      'hidden': typeof(this.props.data) == 'undefined',
-      'tbl': true
-    });
-
-    // Classes to toggle displaying of No Data Available message.
-    //
-    // If this.props.data is undefined, this means no Exif data
-    // was passed down. Therefore this div must not be hidden when
-    // no Exif data is provided.
-    var classesNoDataAvailable = classNames({
-      'hidden': typeof(this.props.data) != 'undefined',
-      'text-center': true
-    });
-
     return (
       <div className={classesDisplayResults}>
-        <div className={classesDisplayTable}>
-          Data Table
-        </div>
-        <div className={classesNoDataAvailable}>
-          No data available
-        </div>
+        <DataTable rowMap={mapOfImageData} originalData={this.props.data}/>
+        <NoData originalData={this.props.data}/>
       </div>
-    )
+    );
   };// End Component Render.
 
 };
