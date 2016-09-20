@@ -7,75 +7,14 @@ body {
 }
 
 .boxshadow {
-  background-color: #FFFFFF;
   box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.1);
   margin: 15px 0 15px 0;
   padding: 20px;
 }
 
-.container-tabs {
-
-  box-sizing: border-box;
-
-  .tab {
-    box-sizing: border-box;
-    float: left;
-    width: 25%;
-    background-color: #FFFFFF;
-
-    padding: 20px 0 20px 0;
-  };
-
-  .tab-active {
-    background-color: #6aaf4e;
-    color: #FFFFFF;
-  };
-
-};
-
-.container-results {
+.panel {
   background-color: #FFFFFF;
-  border: solid 5px #6aaf4e;
-  padding: 10px;
-};
-
-
-#userinput {
-
-
-  cursor: pointer;
-
-  #upload-file-target {
-    width: 80%;
-    margin: 0 auto;
-    padding: 30px 0 30px 0;
-
-    border: dashed 5px #000000;
-
-    text-align: center;
-
-  }
-
 }
-
-
-
-
-
-.tbl {
-  display: table;
-  width: 100%;
-
-  .row {
-    display: table-row;
-  };
-
-  .cell {
-    display: table-cell;
-  }
-}
-
-
 
 // Disable text selection.
 .noselect {
@@ -86,20 +25,28 @@ body {
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
-}
+};
 
+// Align text center.
 .text-center {
   text-align: center;
-}
+};
 
+// Hide contents.
 .hidden {
   display: none;
-}
+};
 
+// Clear floats.
 .clearfix {
   clear: both;
-}
+};
 
+// Bold text.
 .bold {
   font-weight: bold;
-}
+};
+
+@import '_TabLayout';
+@import '_Uploader';
+@import '_Table';

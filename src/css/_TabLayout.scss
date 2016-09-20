@@ -1,0 +1,26 @@
+
+.container-tabs {
+
+  box-sizing: border-box;
+
+  .tab {
+    box-sizing: border-box;
+    float: left;
+    width: 25%;
+    background-color: #FFFFFF;
+
+    padding: 20px 0 20px 0;
+  };
+
+  .tab-active {
+    background-color: #6aaf4e;
+    color: #FFFFFF;
+  };
+
+};
+
+.container-results {
+  background-color: #FFFFFF;
+  border: solid 5px #6aaf4e;
+  padding: 10px;
+};
