@@ -76,7 +76,6 @@ gulp.task('stylesheets', function() {
 // Watch task
 ////////////////////////////////////////////////////////////////////////////////
 gulp.task('watch', function() {
-  //gulp.watch(srcPath + 'js/**/*.jsx', ['jsx']);            // JSX files.
   gulp.watch(srcPath + 'css/**/*.scss', ['stylesheets']);  // SASS Main.
   gulp.watch(srcPath + 'css/**/_*.scss', ['stylesheets']); // SASS Partials.
   gulp.watch(srcPath + '*.html', ['html']);                // HTML files.

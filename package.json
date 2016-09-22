@@ -1,5 +1,5 @@
 {
-  "name": "ms-exif-decoder",
+  "name": "ms-exif-viewer",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jon1701/MS-ExifDecoder.git"
+    "url": "git+https://github.com/Jon1701/MS-ExifViewer.git"
   },
   "author": "Jon1701",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jon1701/MS-ExifDecoder/issues"
+    "url": "https://github.com/Jon1701/MS-ExifViewer/issues"
   },
-  "homepage": "https://github.com/Jon1701/MS-ExifDecoder#readme",
+  "homepage": "https://github.com/Jon1701/MS-ExifViewer#readme",
   "dependencies": {
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
