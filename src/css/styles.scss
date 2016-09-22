@@ -8,11 +8,20 @@ body {
 
 .boxshadow {
   box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  margin: 15px 0 15px 0;
+}
+
+@media screen and (min-width: 792px) {
+  .panel {
+    width: 792px;
+    margin: 0 auto;
+  }
 }
 
 .panel {
   background-color: #FFFFFF;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  //margin: 15px 0 15px 0;
   padding: 20px;
 }
 
@@ -50,3 +59,4 @@ body {
 @import '_TabLayout';
 @import '_Uploader';
 @import '_Table';
+@import '_font-size';
