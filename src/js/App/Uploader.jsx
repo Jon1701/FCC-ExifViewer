@@ -1,5 +1,6 @@
 // React.
 import React from 'react';
+import classNames from 'classnames';
 
 // Superagent.
 var request = require('superagent');
@@ -14,6 +15,11 @@ export default class Uploader extends React.Component {
     // Bind methods to Component instance.
     this.handleFileUploadOnClick = this.handleFileUploadOnClick.bind(this);
 
+    // Default state.
+    this.state = {
+      uploadError: false  // Default, no upload error.
+    };
+
   };
 
   uploadFile(file) {
@@ -25,9 +31,19 @@ export default class Uploader extends React.Component {
 
         // Check response from server.
         if (err) {
-          // Error occurred.
-          console.log(err);
+
+          // Display error message.
+          this.setState({
+            uploadError: true
+          });
+
         } else {
+
+          // Hide error message.
+          this.setState({
+            uploadError: false
+          });
+
           // Send metadata to parent state.
           this.props.handleUpdateData(JSON.parse(res.text));
         };
@@ -70,6 +86,12 @@ export default class Uploader extends React.Component {
 
   // Component Render.
   render() {
+
+    // Classes for the error dialog box.
+    var classesErrorMsgBox = classNames({
+      'hidden': !this.state.uploadError
+    });
+
     return (
       <div id="uploader" className="noselect panel boxshadow">
         <form>
@@ -78,6 +100,10 @@ export default class Uploader extends React.Component {
           </div>
           <input className="hidden" id="upload-file-control" type="file"/>
         </form>
+
+        <div id="warning-upload" className={classesErrorMsgBox}>
+          File too large. Maximum 50MB.
+        </div>
       </div>
     )
   };// End Component Render.

@@ -1,7 +1,6 @@
 
 #uploader {
 
-
   cursor: pointer;
 
   #upload-file-target {
@@ -12,7 +11,20 @@
     border: dashed 5px #000000;
 
     text-align: center;
+  }
 
+  #warning-upload {
+    width: 80%;
+    margin: 0 auto;
+
+    background-color: #D9534F;
+    color: #FFFFFF;
+    padding: 20px 0 20px 0;
+
+    margin-top: 10px;
+    font-weight: bold;
+
+    text-align: center;
   }
 
 }

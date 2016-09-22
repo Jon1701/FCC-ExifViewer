@@ -13,7 +13,12 @@ var path = require('path');
 // Multer.
 ////////////////////////////////////////////////////////////////////////////////
 var multer  = require('multer');
-var upload = multer({ dest: './tmp/uploads/' });  // Disk storage.
+var upload = multer({
+  dest: './tmp/uploads/',
+  limits: {
+    fileSize: 50*1048576 // 50MB file size limit.
+  }
+});  // Disk storage.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common callback functions.
