@@ -77,12 +77,12 @@ export default class ResultsExif extends React.Component {
     // Map to hold sanitized EXIF data. (Ordered Object).
     var newExifData = new Map();
     newExifData.set('Contrast', copyValue('Contrast', oldExifData));
-    newExifData.set('Height', copyValue('ExifImageHeight', oldExifData));
     newExifData.set('Width', copyValue('ExifImageWidth', oldExifData));
+    newExifData.set('Height', copyValue('ExifImageHeight', oldExifData));
     newExifData.set('Exposure Compensation', copyValue('ExposureCompensation', oldExifData));
     newExifData.set('Exposure Mode', remapValue('ExposureMode', oldExifData));
     newExifData.set('Exposure Program', remapValue('ExposureProgram', oldExifData));
-    newExifData.set('Exposure Time', copyValue('ExposureTime', oldExifData));
+    //newExifData.set('Exposure Time', copyValue('ExposureTime', oldExifData));
     newExifData.set('F-Stop', copyValue('FNumber', oldExifData));
     newExifData.set('Flash', remapValue('Flash', oldExifData));
     newExifData.set('Focal Length', copyValue('FocalLength', oldExifData));
@@ -93,13 +93,59 @@ export default class ResultsExif extends React.Component {
     newExifData.set('Sharpness', remapValue('Sharpness', oldExifData));
 
     // Remove empty entries.
+    // Reformat non-empty entries (add units).
     //
     // If the value for the current key is null, delete the key along with
     // its value.
     newExifData.forEach((value, key, mapObj) => {
+
       if (value == null) {
+
+        // Delete when value is null.
         newExifData.delete(key);
+        
+      } else {
+
+        // Reformat width.
+        if (key == 'Width') {
+          newExifData.set('Width', value + 'px')
+        };
+
+        // Reformat width.
+        if (key == 'Height') {
+          newExifData.set('Height', value + 'px')
+        };
+
+        // Reformat Exposure Compensation.
+        if (key == 'Exposure Compensation') {
+
+          // Get the value of exposure compensation as integer.
+          let exposureValue = String(3*value);
+
+          // Add - sign if negative, or + if positive.
+          if (value < 0) {
+            exposureValue = '-' + exposureValue;
+          } else if (value > 0) {
+            exposureValue = '+' + exposureValue;
+          };
+
+          // Assign new value.
+          newExifData.set('Exposure Compensation', exposureValue);
+
+        };
+
+        // Reformat f-stop.
+        if (key == 'F-Stop') {
+          newExifData.set('F-Stop', 'f/' + value);
+        };
+
+        // Reformat Focal Length.
+        if (key == 'Focal Length') {
+          newExifData.set('Focal Length', value + 'mm');
+        };
+
       };
+
     });
 
     return newExifData;

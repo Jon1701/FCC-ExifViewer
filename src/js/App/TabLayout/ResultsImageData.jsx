@@ -50,13 +50,31 @@ export default class ResultsImageData extends React.Component {
       mapOfImageData.set('Vertical Resolution', copyValue('YResolution', imgData));
 
       // Remove empty entries.
+      // Reformat non-empty entries (add units).
       //
       // If the value for the current key is null, delete the key along with
       // its value.
       mapOfImageData.forEach((value, key, mapObj) => {
+        
         if (value == null) {
+
+          // Delete when value is null.
           mapOfImageData.delete(key);
+
+        } else {
+
+          // Reformat Horizontal Resolution.
+          if (key == 'Horizontal Resolution') {
+            mapOfImageData.set('Horizontal Resolution', value + 'ppi');
+          };
+
+          // Reformat Vertical Resolution.
+          if (key == 'Vertical Resolution') {
+            mapOfImageData.set('Vertical Resolution', value + 'ppi');
+          };
+
         };
+
       });
 
       return mapOfImageData
