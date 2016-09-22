@@ -92,6 +92,16 @@ export default class ResultsExif extends React.Component {
     newExifData.set('Saturation', remapValue('Saturation', oldExifData));
     newExifData.set('Sharpness', remapValue('Sharpness', oldExifData));
 
+    // Remove empty entries.
+    //
+    // If the value for the current key is null, delete the key along with
+    // its value.
+    newExifData.forEach((value, key, mapObj) => {
+      if (value == null) {
+        newExifData.delete(key);
+      };
+    });
+
     return newExifData;
 
   };
@@ -120,8 +130,8 @@ export default class ResultsExif extends React.Component {
 
     return (
       <div className={classesDisplayResults}>
-        <DataTable rowMap={mapOfSanitizedExifData} originalData={this.props.data}/>
-        <NoData originalData={this.props.data}/>
+        <DataTable rowMap={mapOfSanitizedExifData}/>
+        <NoData rowMap={mapOfSanitizedExifData}/>
       </div>
     )
   };// End Component Render.

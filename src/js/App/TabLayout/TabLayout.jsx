@@ -126,7 +126,8 @@ export default class TabLayout extends React.Component {
     // Hide entire layout if no data was sent/received to/from server.
     // Unhide if data was received.
     var myClasses = classNames({
-      'hidden': allDataNull
+      'hidden': allDataNull,
+      'panel': true
     });
 
     return (

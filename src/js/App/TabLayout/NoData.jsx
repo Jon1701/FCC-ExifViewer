@@ -12,13 +12,42 @@ export default class NoData extends React.Component {
   // Component Render.
   render() {
 
+    // Variable to toggle component visibility.
+    var toggleHidden = true;
+
+    // Three cases.
+    //
+    // rowMap null/undefined --> hidden
+    // rowMap length 0 --> hidden
+    // rowMap length > 0 --> not hidden
+    if (this.props.rowMap) {
+
+      // Check size.
+      if (this.props.rowMap.size == 0) {
+
+        // Hide if no data was provided.
+        toggleHidden = true;
+
+      } else {
+
+        // Display if data was provided.
+        toggleHidden = false;
+      };
+
+    } else {
+
+      // Hide since no data was provided.
+      toggleHidden = true;
+
+    };
+
     // Classes to toggle displaying of No Data Available message.
     //
     // If this.props.data is undefined, this means no Exif data
     // was passed down. Therefore this div must not be hidden when
     // no Exif data is provided.
     var classesNoDataAvailable = classNames({
-      'hidden': typeof(this.props.originalData) != 'undefined',
+      'hidden': !toggleHidden,
       'text-center': true
     });
 

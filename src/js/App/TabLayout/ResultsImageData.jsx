@@ -49,6 +49,16 @@ export default class ResultsImageData extends React.Component {
       mapOfImageData.set('Horizontal Resolution', copyValue('XResolution', imgData));
       mapOfImageData.set('Vertical Resolution', copyValue('YResolution', imgData));
 
+      // Remove empty entries.
+      //
+      // If the value for the current key is null, delete the key along with
+      // its value.
+      mapOfImageData.forEach((value, key, mapObj) => {
+        if (value == null) {
+          mapOfImageData.delete(key);
+        };
+      });
+
       return mapOfImageData
 
     };
@@ -79,8 +89,8 @@ export default class ResultsImageData extends React.Component {
 
     return (
       <div className={classesDisplayResults}>
-        <DataTable rowMap={mapOfImageData} originalData={this.props.data}/>
-        <NoData originalData={this.props.data}/>
+        <DataTable rowMap={mapOfImageData}/>
+        <NoData rowMap={mapOfImageData}/>
       </div>
     );
   };// End Component Render.

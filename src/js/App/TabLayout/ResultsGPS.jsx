@@ -61,6 +61,16 @@ export default class ResultsGPS extends React.Component {
       mapOfGPSData.set('Latitude', latitudeDMS);
       mapOfGPSData.set('Longitude', longitudeDMS);
 
+      // Remove empty entries.
+      //
+      // If the value for the current key is null, delete the key along with
+      // its value.
+      mapOfGPSData.forEach((value, key, mapObj) => {
+        if (value == null) {
+          mapOfGPSData.delete(key);
+        };
+      });
+
       return mapOfGPSData
 
     };
@@ -91,8 +101,8 @@ export default class ResultsGPS extends React.Component {
 
     return (
       <div className={classesDisplayResults}>
-        <DataTable rowMap={mapOfGPSData} originalData={this.props.data}/>
-        <NoData originalData={this.props.data}/>
+        <DataTable rowMap={mapOfGPSData}/>
+        <NoData rowMap={mapOfGPSData}/>
       </div>
     );
   };// End Component Render.

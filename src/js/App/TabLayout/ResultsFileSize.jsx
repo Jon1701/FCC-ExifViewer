@@ -81,8 +81,8 @@ export default class ResultsFileSize extends React.Component {
 
     return (
       <div className={classesDisplayResults}>
-        <DataTable rowMap={mapOfFileSizeData} originalData={this.props.data}/>
-        <NoData originalData={this.props.data}/>
+        <DataTable rowMap={mapOfFileSizeData}/>
+        <NoData rowMap={mapOfFileSizeData}/>
       </div>
     );
   };// End Component Render.
