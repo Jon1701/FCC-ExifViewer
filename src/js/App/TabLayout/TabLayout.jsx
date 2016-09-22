@@ -127,7 +127,8 @@ export default class TabLayout extends React.Component {
     // Unhide if data was received.
     var myClasses = classNames({
       'hidden': allDataNull,
-      'panel': true
+      'panel': true,
+      'boxshadow': true
     });
 
     return (
